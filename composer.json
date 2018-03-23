@@ -1,0 +1,35 @@
+{
+    "name": "cs1mbp/ORDA_Figshare",
+    
+    "description": "ORDA (Online Research Data)",
+    
+    "type": "project",
+    
+    "keywords": ["figshare", "ORDA", "Library", "University of Sheffield", "open access", "research"],
+ 
+    "authors": [{
+        "name": "Marcelo Paulino",
+        "email": "m.paulino@sheffield.ac.uk",
+        "homepage": "http://www.sheffield.ac.uk",
+        "role": "Software Developer"
+     }],
+ 
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/src"
+        }
+    },
+ 
+    "require": {
+        "slim/slim": "^3.0",
+        "slim/twig-view": "^2.0",
+        "slim/flash": "^0.1.0",
+        "monolog/monolog": "^1.13",
+        "pavlakis/slim-cli": "^1.0",
+        "j7mbo/twitter-api-php": "^1.0",
+        "caseyamcl/phpoaipmh": "~2.0",
+        "symfony/yaml": "^3.3",
+        "guzzlehttp/guzzle": "~6.0",
+        "theiconic/php-ga-measurement-protocol": "^2.0"
+    }
+}

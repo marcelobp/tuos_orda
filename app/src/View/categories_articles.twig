@@ -1,0 +1,39 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+<ul class="breadcrumb hidden-xs ul_breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li><a href="/categories/">Categories</a></li>
+  <li class="active">{{ page.title }}</li>
+  <li class="active">Articles</li>
+</ul>
+
+{% if page.back %}
+    <p><a class="btn btn-primary btn-sm" href="{{ page.back }}" role="button">Back to the list of Categories</a></p>
+{% endif %}
+
+<div class="row">
+    {% for collection in page.collections %}
+        <div class="col-xs-12 list-group-item">
+            <div style="margin-bottom: 5px; margin-right: 5px">                    
+                <h2><a href='/conferences/articles/{{ collection.id|e }}'> {{ collection.title|e }}</a></h2>
+                <h6><b>Published on:</b> {{ collection.published_date|e }}</h6>
+                <h6><b>Authors: </b> {{ collection.authors }} </h6>
+                <h6><b>Categories: </b> {{ collection.categories }} </h6>
+                <h6><b>Tags: </b> {{ collection.tags }} </h6>
+                <article>
+                {% autoescape %}
+                    {{ collection.description|raw }}
+                {% endautoescape %}   
+                </article> 
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% include 'partials/list_articles.twig' %}
+
+{% include 'partials/paginator.twig' %}
+
+{% endblock %}

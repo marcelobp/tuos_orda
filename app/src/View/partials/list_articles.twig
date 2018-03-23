@@ -1,0 +1,110 @@
+<div class="row">
+    {% if session.search_by_show %}
+        <div class="row text-left" style="padding-left: 10px; padding-right: 12px;">
+            <div class="col-xs-12 hero-feature" style="padding-left: 5px;">
+                {% include 'partials/search_bar.twig' %}
+            </div>    
+        </div>    
+    {% endif %}
+
+    {% if page.no_order is null %}
+        {% include 'partials/order_articles.twig' %}
+    {% endif %}
+        
+    {% if page.articles %}
+    
+        {% for article in page.articles %}
+            <div class="col-xs-12 list-group-item" style="margin-top: 5px">
+                <div>
+                    <div style="margin-right: 17px;" class="pull-left">
+                    <a href="http://dx.doi.org/{{ article.doi }}" onclick="trackOutboundLink('http://dx.doi.org/{{ article.doi }}'); return false;" target="_blank" >
+                        {% if article.thumb  %}
+                            <img src="{{ article.thumb }}" class="media-object" alt="" width="100px" height="100px" title="Id: {{ article.id }}">
+                        {% else %}
+                            <i class="{{ article.thumb_placeholder }}" aria-hidden="true" style="font-size: 80px;" title="Id: {{ article.id }}"></i>
+                        {% endif %}
+                    </a>
+                    </div>
+                    
+                    <div style="padding-left: 5px">
+                        <a href="http://dx.doi.org/{{ article.doi }}" onclick="trackOutboundLink('http://dx.doi.org/{{ article.doi }}'); return false;" class="content show-tooltip" target="_blank" data-html="true" data-toggle="tooltip" data-placement="bottom" title="{{ article.description }}"><h3 class="">{{ article.title|e }}</h3></a>
+                        <h6>
+                        {{ article.type }} by
+                        {% for author in article.authors  %}
+                            {% if loop.first %}
+                                {{  author.full_name }}{% if loop.length > 1 %} et al{% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        on 
+                        {{ article.published_date }}
+                        </h6>
+                        
+                        <div>
+                            <span class="glyphicon glyphicon-eye-open fa-lg" title="Views" alt="Views {{ article.title|e }}"></span> <font style="font-size: 12px;"> {{  article.statistics.views }} </font> &nbsp;
+                            <span class="glyphicon glyphicon glyphicon-download-alt fa-lg" title="Downloads" alt="Download {{ article.title|e }}"></span> <font style="font-size: 12px;">{{  article.statistics.downloads }}</font> &nbsp;
+                            
+                            <a href="#" data-toggle="modal" data-target="#citationModal" id={{ article.doi }} style=" color:inherit; text-decoration: none;"><span class="glyphicon glyphicon-copy fa-lg" title="Generate Citations" alt="Generate Citations"></span></a> &nbsp; 
+                            <a href="#" data-toggle="modal" data-target="#chartModal" class="chart" id={{ article.id }} style=" color:inherit; text-decoration: none;"><span class="glyphicon glyphicon-stats fa-lg" title="Stats" alt="Stats"></span></a>
+
+                            {% if article.visualisations  %}
+                            <div class="btn-group" style="margin-left: 5px;">
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background: none; border: none;">
+                                    <span class="glyphicon glyphicon-sunglasses fa-2x"></span> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% for visualisation in article.visualisations  %}
+                                        <li><a {% if visualisation.visualisation_embeded == 'link' %} href="{{ visualisation.visualisation_url }}" target="_blank" {% else %} href="/visualisations/view/{{ visualisation.article_id }}/{{ visualisation.position }}" {% endif %}>{{ visualisation.title }} </a></li>                                    
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        
+        {% if page.ajax_search %}
+            <form role="search" name="searchFormPagination" id="searchFormPagination" method="post" action="/articles/search">
+                <button type="button" class="load-more-search btn btn-warning btn-lg" id="load" data-loading-text="<i class='fa fa-spinner fa-spin '></i> <b>Loading..."><b>Load More</button>
+                <input type="hidden" name="search_term" id="search_term" value="{{ page.search_term }}">
+                <input type="hidden" name="search_by" id="search_by" value="{{ page.search_by }}">
+                <input type="hidden" name="page" id="page" value="{{ page.page }}">
+                <input type="hidden" name="order_direction" id="order_direction" value="{{ page.order_direction }}">
+                <input type="hidden" name="order_by" id="order_by" value="{{ page.order_by }}">
+                <input type="hidden" name="filter_type" id="filter_type" value="{{ page.filter_type }}">
+                <input type="hidden" name="load_more" id="load_more" value="1">
+            </form>
+        {% else %} 
+            <div class="col-xs-12">
+                <button type="button" class="load-more btn btn-warning btn-lg" id="load" data-loading-text="<i class='fa fa-spinner fa-spin '></i> <b>Loading..."><b>Load More</button>
+                <input type="hidden" id="page" value="1">
+                <input type="hidden" id="order_by" value="{{ page.order_by }}">
+                <input type="hidden" id="order_direction" value="{{ page.order_direction }}">
+                <input type="hidden" id="filter_type" value="{{ page.filter_type }}">
+                <input type="hidden" id="id_group" value="{{ page.id_sub_group }}">
+                <input type="hidden" id="load_more_url" value="{{ page.load_more_url }}">
+            </div>
+        {% endif %}        
+    
+    {% else %}
+        <br />
+        <br />
+        <br />
+        <div class="well"><p class="h4 text-center">Sorry, no results were found.</p></div>
+    {% endif %}
+</div>
+
+{% include 'partials/citation.twig' %}
+ 
+<div class="modal fade" id="chartModal" tabindex="-1" role="dialog" aria-labelledby="chartModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Stats of Views and Downloads</h4>            
+            </div>
+            <div id="chart_div" style="width: 500px;"></div>
+        </div>
+    </div>
+</div>

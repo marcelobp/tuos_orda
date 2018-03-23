@@ -1,0 +1,34 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+{% for visualisation in page.visualisations %}
+    <ul class="breadcrumb hidden-xs ul_breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li><a href="/visualisations/">Visualisation Showcase</a></li>
+      <li class="active">{{ visualisation.title }}</li>
+    </ul>
+    
+    <div class="row">
+        <h2><b>{{ visualisation.title }}</h2>
+        
+        {% if visualisation.creators %}
+            <h5><span class="glyphicon glyphicon-user"></span> Creator(s): {{ visualisation.creators }}</h5>
+        {% endif %}
+        
+        {% if visualisation.article_doi %}
+            <h5><span class="glyphicon glyphicon-hand-up"></span> <a href="http://dx.doi.org/{{ visualisation.article_doi }}" target="blank">Get the underlying data</a></h5>
+        {% endif %}
+        
+        {% if visualisation.source_code %}
+            <h5><span class="glyphicon glyphicon-floppy-disk"></span> Source code: <a href="{{ visualisation.source_code }}" target="blank">{{ visualisation.source_code }}</a></h5>
+        {% endif %}        
+        <br>
+        <h3><p>{{ visualisation.description |e }}</p></h3>
+
+        <iframe id="if1" frameBorder="0" style="visibility:visible" height="580px" src="{{ visualisation.visualisation_url }}" width="100%"></iframe>
+    </div>
+{% endfor %}
+
+
+{% endblock %}

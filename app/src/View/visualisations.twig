@@ -1,0 +1,47 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+<ul class="breadcrumb hidden-xs ul_breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">{{ page.title }}</li>
+</ul>
+
+<div class="row">
+    <div class="col-sm-6">
+        <h2 style="margin-left:5px; float: left;">Visualisation Showcase</h2>
+    </div>
+    
+    <div class="col-sm-12">
+        <h3>
+            <p>This area shows some examples of visual representations of our research that you can view and explore directly in your web browser. Some are fully interactive and allow you to investigate different facets of the available data.</p>
+            <p>We plan to develop guidance and training which can enable researchers build visualisations from their own research data, using free and open source tools.</p>
+            <p>
+            <!-- 
+            If you have a visualisation that you would like to display here, or can tell us more about the tools you use (or would like to use) to present data visually, please <a href="https://goo.gl/forms/3AYg51UkHi3Q1Y2X2" target="_blank">complete this survey</a>, 
+            which should take no more than 5 minutes. You can also contact us at <a href="mailto:rdm@sheffield.ac.uk">rdm@sheffield.ac.uk</a> with questions, though please note this work is still in a pilot phase.
+             -->
+            If you have a visualisation that you would like to display here, or can tell us more about the tools you use (or would like to use) to present data visually, please contact us at <a href="mailto:rdm@sheffield.ac.uk">rdm@sheffield.ac.uk</a>, though please note this work is still in a pilot phase.
+            </p>
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+
+    {% for visualisation in page.visualisations %}
+
+        <div class="col-xs-12 col-sm-6 col-md-4" style="height:400px;">
+            <div class="" >
+                <a {% if visualisation.visualisation_embeded == 'link' %} href="{{ visualisation.visualisation_url }}" target="_blank" {% else %} href="/visualisations/view/{{ visualisation.article_id }}/{{ visualisation.position }}" {% endif %}><img src="{{ visualisation.thumb }}" class="media-object" alt="" style="height:250px; width:250px;"></a>        
+            </div>
+            <div><h4>{% if visualisation.title %} {{ visualisation.title }} {% else %} Title not defined {% endif %}</h4>Author: {{ visualisation.creators }}</div>
+        </div>
+                
+    {% endfor %}    
+          
+</div>
+
+{% include 'partials/paginator.twig' %}
+    
+{% endblock %}

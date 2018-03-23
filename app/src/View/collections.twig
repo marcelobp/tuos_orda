@@ -1,0 +1,21 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+<ul>
+    {% for collection in page.collections %}
+        
+        <li><a href='/conferences/{{ collection.id|e }}' target='blank'> {{ collection.title|e }} </a></li>
+
+    {% else %}
+         
+         <em>no collections found</em>
+         
+    {% endfor %}
+</ul>
+
+{% include 'partials/paginator.twig' %}
+    
+
+{% endblock %}
+

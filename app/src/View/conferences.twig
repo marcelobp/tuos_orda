@@ -1,0 +1,42 @@
+{% set strategy = 'html' %}
+
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+<ul class="breadcrumb hidden-xs ul_breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li class="active">{{ page.title }}</li>
+</ul>
+
+<div class="row">
+    {% for collection in page.collections %}
+        <div class="col-xs-12 list-group-item" style="margin-bottom: 10px;">
+            <div>                    
+                <h2><a href='/conferences/articles/{{ collection.id|e }}'> {{ collection.title|e }}</a></h2>
+                <h6><b>Published on:</b> {{ collection.published_date|e }}</h6>
+                <h6><b>Authors: </b> {{ collection.authors }} </h6>
+                <h6><b>DOI: </b> {{ collection.doi }} <a href="#" data-toggle="modal" data-target="#citationModal" id={{ collection.doi }} style=" color:inherit; text-decoration: none;"><span class="glyphicon glyphicon-copy fa-lg" title="Generate Citations" alt="Generate Citations"></span></a> </h6>  
+                <h6><b>Categories: </b> {{ collection.categories }} </h6>
+                <h6><b>Tags: </b> {{ collection.tags }} </h6>
+                
+                <p><a class="btn btn-warning btn-sm" href="/conferences/articles/{{ collection.id|e }}" role="button">Browse all {{ collection.articles_count|e }} items from this conference</a></p>
+                
+                <article>
+                {% autoescape %}
+                    {{ collection.description|raw }}
+                {% endautoescape %}   
+                </article> 
+            </div>
+            
+        </div>
+        
+    {% else %}
+         <em>no conferences found</em>
+    {% endfor %}
+</div>
+{% include 'partials/paginator.twig' %}
+
+{% include 'partials/citation.twig' %}
+
+{% endblock %}

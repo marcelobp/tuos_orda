@@ -1,0 +1,40 @@
+{% set strategy = 'html' %}
+
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+<ul class="breadcrumb hidden-xs ul_breadcrumb">
+    <li><a href="/">Home</a></li>
+    {% if page.institutes_by_id %}
+        <li><a href="/institutes/">Institutes</a></li>
+    {% endif %}
+    <li class="active">{{ page.title }}</li>
+</ul>
+
+<div class="row">
+    {% for collection in page.collections %}
+        <div class="col-xs-12 list-group-item" style="margin-bottom: 5px;">
+            <div style="margin-bottom: 5px; margin-right: 5px">                    
+                <h2><a href='/institutes/articles/{{ collection.id|e }}'> {{ collection.title|e }}</a></h2>
+                <h6><b>Published on:</b> {{ collection.published_date|e }}</h6>
+                <h6><b>Authors: </b> {{ collection.authors }} </h6>
+                <h6><b>Categories: </b> {{ collection.categories }} </h6>
+                <h6><b>Tags: </b> {{ collection.tags }} </h6>
+                
+                <p><a class="btn btn-warning btn-sm" href="/institutes/articles/{{ collection.id|e }}" role="button">Browse all {{ collection.articles_count|e }} items from this institute</a></p>
+                
+                <article>
+                {% autoescape %}
+                    {{ collection.description|raw }}
+                {% endautoescape %}   
+                </article> 
+            </div>
+        </div>
+    {% else %}
+         <em>no institutes found</em>
+    {% endfor %}
+</div>
+{% include 'partials/paginator.twig' %}
+
+{% endblock %}

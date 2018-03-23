@@ -1,0 +1,14 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+<ul class="breadcrumb hidden-xs ul_breadcrumb">
+  <li><a href="/">Home</a></li>
+  <li class="active">{{ page.title }}</li>
+</ul>
+
+{% include 'partials/list_articles.twig' %}
+
+{% include 'partials/paginator.twig' %}
+
+{% endblock %}

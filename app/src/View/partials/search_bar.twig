@@ -1,0 +1,37 @@
+<div class="panel panel-border panel-yellow" style="margin-bottom: 20px;">
+    <div class="row">
+        <div class="col-xs-12" style="margin-top:0px; text-align:center">
+            <!--<h2>Discover research from <b>The University of Sheffield</b></h2>-->
+            <h3><b>Discover our research</b></h3>
+        </div>   
+        <div class="col-sm-11 col-xs-10">
+            <form class="form-horizontal" role="search" name="searchForm" id="searchForm" method="post" action="/articles/search">
+                <div class="col-sm-2 hidden-xs" style="margin-top:0px; text-align:right"><h4>Search:</h4></div>
+                <div class="input-group" style="padding-bottom:15px">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <span id="search_combo">{% if session.search_by_show %}{{ session.search_by_show }}{% else %}All fields{% endif %}</span> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" id="search_by_menu" role="menu">
+                            <li><a href="#" id="">All fields</a></li>
+                            <li class="divider"></li>
+                            <li {% if session.search_by == 'author' %}class="active"{% endif %}><a href="#" id="author">Author</a></li>
+                            <li {% if session.search_by == 'title' %}class="active"{% endif %}><a href="#" id="title">Title</a></li>
+                            <li {% if session.search_by == 'description' %}class="active"{% endif %}><a href="#" id="description">Description</a></li>                            
+                            <li {% if session.search_by == 'tag' %}class="active"{% endif %}><a href="#" id="tag">Tag</a></li>
+                            <li {% if session.search_by == 'category' %}class="active"{% endif %}><a href="#" id="category">Category</a></li>                            
+                            <li {% if session.search_by == 'extension' %}class="active"{% endif %}><a href="#" id="extension">File extension</a></li>
+                            <li {% if session.search_by == 'orcid' %}class="active"{% endif %}><a href="#" id="">ORCID</a></li>
+                            <li {% if session.search_by == 'doi' %}class="active"{% endif %}><a href="#" id="doi">DOI</a></li>
+                        </ul>
+                    </div>                            
+                    <input type="text" class="form-control" name="search_term" id="search_term" placeholder="Search term..." value="{% if home %}{% else %}{{ session.search_term }}{% endif %}">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="button" id="btn-search"><i class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                    <input type="hidden" name="search_by" id="search_by" value="">
+                </div>
+            </form>                    
+        </div>
+    </div>
+</div>

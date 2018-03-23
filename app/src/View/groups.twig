@@ -1,0 +1,49 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+    <ul class="breadcrumb hidden-xs ul_breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li><a href="/">Faculties</a></li>
+      <li class="active">Faculty of {{ page.current_page }}</li>
+    </ul>
+    
+    <div class="well panel-yellow" >
+        <h1 style='font-weight: 500; margin-top: 10px; font-family: "Open sans", Arial, sans-serif'><p><span class="glyphicon glyphicon-education"></span> &nbsp;Faculty of {{ page.current_page }}</p></h1>
+        <div class="row">
+        {% for group in page.groups %}
+            <div class="col-md-6 col-sm-12 col-xs-12" style="margin-top: 5px; font-size: 13px; height: 20px">
+                <a href="/groups/list/{{ group.parent_id }}/{{ group.id}}/1/desc/published_date" class="{{ group.class }}">{{ group.name|e }}</a> 
+                <span class="count_articles_{{ group.id}}"> <img src='/img/loader_yellow.gif' alt='loading...' /> </span> 
+            </div>
+        {% endfor %}    
+        </div>
+    </div>
+    
+    {% if page.articles %}
+        
+        <div style="margin-right: 15px; margin-left: 15px">
+    
+            {% include 'partials/list_articles.twig' %}
+            
+        </div>
+        
+        {% include 'partials/paginator.twig' %}
+        
+    {% else %}
+        
+        <br />
+        <div class="text-center"><h2><p><span class="glyphicon glyphicon-hand-up"></span> Choose a Department</p></h2></div>
+    
+    {% endif %}
+
+    <script type="text/javascript">
+    $(document).ready(function () {
+        {% for group in page.groups %}
+            $(".count_articles_{{ group.id}}").load("/groups/count_articles", {'id': '{{ group.id}}'});
+        {% endfor %}
+    });
+    </script>
+
+{% endblock %}
+

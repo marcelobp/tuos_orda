@@ -1,0 +1,31 @@
+<div class="text-center">
+{% if pagination.needed %}
+    <ul class="pagination">
+        {% if pagination.page > 1 %}
+            {# <a href="{{ path_for(pagination.route, pagination.route_params|merge({'page': 1})) }}"><<</a> #}
+            <!--  
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            -->
+        {% endif %}
+        
+        {% for i in 1..pagination.lastpage %}
+            <li class="{% if i == pagination.page %} active {% endif %} {% if pagination.ajax_search %} ajax_search {% endif %}"><a href="{{ path_for(pagination.route, pagination.route_params|merge({'page': i, 'count_articles': pagination.count})) }}">{{ i }}</a></li>
+        {% endfor %}
+        
+        {% if pagination.page < pagination.count %}
+            {# <a href="{{ path_for(pagination.route, pagination.route_params|merge({'page': pagination.pages_count})) }}">>></a> #}
+            <!--  
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            -->
+        {% endif %}        
+    </ul>
+{% endif %}
+</div>
